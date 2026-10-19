@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-063933E3C2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-063933E3C2");
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slime Mold: Physarum Networks Grown by Thousands of Agents</title>
+    <meta
+      name="description"
+      content="Slime Mold: thousands of agents follow each other's scent and grow the vein networks of Physarum polycephalum, live in the browser. Tune the sensors, lay food with your finger, and download the picture."
+    />
+    <meta name="author" content="Olivier Giulieri" />
+    <link
+      rel="canonical"
+      href="https://evoluteur.github.io/slime-mold/"
+    />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <meta name="theme-color" content="#1a212d" />
+    <meta property="og:site_name" content="Slime Mold" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Slime Mold" />
+    <meta
+      property="og:description"
+      content="Thousands of agents follow each other's scent and grow the vein networks of the slime mold."
+    />
+    <meta
+      property="og:url"
+      content="https://evoluteur.github.io/slime-mold/"
+    />
+    <meta
+      property="og:image"
+      content="https://evoluteur.github.io/slime-mold/slime-mold.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Overpass"
+    />
+    <link id="omg-core-css" rel="stylesheet" href="css/core.css" />
+    <script>
+      // Themes (dark, light, evol-blue) are copies of omg-themes; set OMG_THEMES_BASE to link the hosted ones instead.
+      window.OMG_THEMES_BASE = ""; // or "https://evoluteur.github.io/omg-themes/" to link the hosted themes
+      window.OMG_DEFAULT_THEME = "dark";
+      (function () {
+        var t = window.OMG_DEFAULT_THEME;
+        try {
+          t = localStorage.getItem("omg-theme") || t;
+        } catch (e) {}
+        if (t !== "dark" && t !== "light" && t !== "evol-blue")
+          t = window.OMG_DEFAULT_THEME;
+        document.documentElement.setAttribute("data-theme", t);
+        // written here (not in the markup) so the saved theme loads before first paint
+        document.write(
+          '<link id="omg-theme-css" rel="stylesheet" href="' +
+            window.OMG_THEMES_BASE +
+            "css/themes/" +
+            t +
+            "/" +
+            t +
+            '.css" />',
+        );
+      })();
+    </script>
+    <link id="omg-density-css" rel="stylesheet" href="css/densities.css" />
+    <link rel="stylesheet" href="css/slime.css" />
+
+    <script src="js/omg.js"></script>
+    <script src="js/slime.js"></script>
+  </head>
+
+  <body
+    onload="
+      setupPage('home');
+      initSlime();
+    "
+    id="omg-body"
+  >
+    <div id="omg-header">
+      <h1>Slime Mold</h1>
+      <div id="omg-header-tools">
+        <div id="omg-theme-picker"></div>
+        <a
+          id="omg-github"
+          href="https://github.com/evoluteur/slime-mold"
+          target="_blank"
+          rel="noopener"
+          title="Slime Mold on GitHub"
+          aria-label="Slime Mold on GitHub"
+          ><svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" /></svg
+        ></a>
+      </div>
+    </div>
+    <h2>Thousands of agents, one network</h2>
+    <div class="content">
+      <div class="app-layout">
+        <div class="art-wrap">
+          <canvas id="slime" aria-label="Slime mold simulation"></canvas>
+        </div>
+        <div class="controls">
+          <label>Preset <select id="preset"></select></label>
+          <p id="preset-text" class="hint"></p>
+          <label><span>Sensor angle <b id="v-sa"></b></span><input id="sa" type="range" min="5" max="90" step="0.5" /></label>
+          <label><span>Sensor distance <b id="v-sd"></b></span><input id="sd" type="range" min="2" max="40" step="1" /></label>
+          <label><span>Turn angle <b id="v-ra"></b></span><input id="ra" type="range" min="-90" max="90" step="0.5" /></label>
+          <label><span>Step <b id="v-ss"></b></span><input id="ss" type="range" min="0.3" max="3" step="0.1" /></label>
+          <label><span>Trail fading <b id="v-decay"></b></span><input id="decay" type="range" min="0.01" max="0.3" step="0.01" /></label>
+          <label><span>Wander <b id="v-wander"></b></span><input id="wander" type="range" min="0" max="0.6" step="0.01" /></label>
+          <label><span>Agents <b id="v-n"></b></span><input id="n" type="range" min="5000" max="100000" step="5000" /></label>
+          <label>Start <select id="shape"></select></label>
+          <label>Colors <select id="palette"></select></label>
+          <div class="buttons">
+            <button type="button" id="btn-run">Pause</button>
+            <button type="button" id="btn-restart" class="secondary">Restart</button>
+            <button type="button" id="btn-png" class="secondary wide">Download PNG</button>
+          </div>
+          <p class="hint">Drag on the picture to lay food: the agents gather to it. The address of the page keeps the settings, to share them.</p>
+        </div>
+      </div>
+
+      <h3>A brain without a brain</h3>
+      <div class="explain">
+        <p>
+          <em>Physarum polycephalum</em>, the many-headed slime mold, is a
+          single cell that can grow to the size of a plate. It has no brain,
+          yet it finds the shortest path through a maze, and in 2010
+          researchers in Japan watched it rebuild the Tokyo rail network:
+          oat flakes placed at the cities, it linked them with veins as
+          efficient as the engineers' tracks.
+        </p>
+        <p>
+          The same year, Jeff Jones showed how such networks can emerge from
+          very simple agents. Each one walks forward, sniffs the trail ahead,
+          a little to the left and a little to the right, turns toward the
+          strongest scent, and leaves a bit of scent where it goes. The
+          scent spreads and fades. Nobody draws the veins: they appear because
+          every agent follows the others.
+        </p>
+        <p>
+          Change how far and how wide the agents look, and how sharply they
+          turn, and the network changes character: long trunks, fine lace,
+          wobbling cells, crawling worms, or, when they turn away from the
+          scent, a foam of dots. Drag on the picture to lay food, and watch
+          the mold reroute itself to reach it.
+        </p>
+      </div>
+
+      <div class="footer">
+        <p>
+          Slime Mold is open source on
+          <a href="https://github.com/evoluteur/slime-mold">GitHub</a>
+          with an MIT license.
+        </p>
+        <p>
+          Had fun browsing the app?
+          <a href="https://github.com/sponsors/evoluteur"
+            >Buy me a coffee by becoming a sponsor</a
+          >.
+        </p>
+        <p>
+          You may also enjoy
+          <a href="https://evoluteur.github.io/flow-fields/">Flow Fields</a>,
+          <a href="https://evoluteur.github.io/reaction-diffusion/">Reaction-Diffusion</a>
+          and
+          <a href="https://evoluteur.github.io/lightning-and-coral/">Lightning and Coral</a>.
+          See them all on
+          <a href="https://evoluteur.github.io/generative-art.html">Generative Art</a>.
+        </p>
+        <p class="copyright">
+          &#169; 2026
+          <a href="https://evoluteur.github.io/">Olivier Giulieri</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
