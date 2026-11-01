@@ -53,7 +53,7 @@ const renderThemePicker = (id) => {
     elem.innerHTML = themes
       .map(
         (t) => `
-       <a class="${id === t ? "selected" : ""}" href="javascript:setTheme('${t}')" alt="${t}" title="${t}">${themeIcons[t]}</a>`
+       <a class="${id === t ? "selected" : ""}" href="javascript:setTheme('${t}')" aria-label="${t} theme" title="${t}">${themeIcons[t]}</a>`
       )
       .join("");
   }
@@ -66,7 +66,7 @@ const renderDensityPicker = (id) => {
       "Density: " +
       densities
         .map(
-          (d) => `<a href="javascript:setDensity('${d}')" alt="${d}">${d}</a>`
+          (d) => `<a href="javascript:setDensity('${d}')">${d}</a>`
         )
         .join("");
   }
@@ -89,6 +89,7 @@ const setTheme = (id) => {
     if (meta && themesColors[id]) {
       meta.setAttribute("content", themesColors[id]);
     }
+    renderThemePicker(id); // move the "selected" mark to the new theme
   }
 };
 

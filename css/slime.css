@@ -81,6 +81,8 @@ html[data-theme="evol-blue"] #omg-github svg {
 .art-wrap {
   position: relative;
   flex: 0 1 600px;
+  aspect-ratio: 1;
+  background: #000;
   border-radius: 4px;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
   overflow: hidden;
@@ -90,6 +92,8 @@ html[data-theme="evol-blue"] #omg-github svg {
   width: 100%;
   height: 100%;
   touch-action: none; /* painting with a finger must not scroll the page */
+  cursor: crosshair;
+  image-rendering: auto;
 }
 .controls {
   flex: 0 0 250px;
@@ -112,11 +116,6 @@ html[data-theme="evol-blue"] #omg-github svg {
   opacity: 0.75;
   font-variant-numeric: tabular-nums;
 }
-.controls label.check {
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-}
 .controls select {
   font: inherit;
   padding: 3px 6px;
@@ -132,9 +131,12 @@ html[data-theme="evol-blue"] #omg-github svg {
   accent-color: var(--accent);
 }
 .buttons {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 6px;
+}
+.buttons .wide {
+  grid-column: span 2;
 }
 .controls button {
   margin: 0;
@@ -148,12 +150,7 @@ html[data-theme="evol-blue"] #omg-github svg {
 .controls button.secondary:focus-visible {
   background: var(--card-bg);
 }
-.controls button.on {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-.hint,
-.note {
+.hint {
   margin: 0;
   font-size: 0.85em;
   opacity: 0.8;
@@ -198,20 +195,4 @@ html[data-theme="evol-blue"] #omg-github svg {
 
 :root {
   --accent: #c99a12;
-}
-.buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-}
-.buttons .wide {
-  grid-column: span 2;
-}
-.art-wrap {
-  aspect-ratio: 1;
-  background: #000;
-}
-.art-wrap canvas {
-  cursor: crosshair;
-  image-rendering: auto;
 }

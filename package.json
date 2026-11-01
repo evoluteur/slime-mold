@@ -1,7 +1,7 @@
 {
   "name": "slime-mold",
   "version": "1.0.0",
-  "description": "Slime Mold: thousands of agents follow each other's scent and grow the vein networks of Physarum polycephalum, live in the browser. Tune the sensors, lay food with your finger, and download the picture.",
+  "description": "Thousands of agents follow each other's scent and grow the vein networks of Physarum polycephalum, live in the browser. Tune the sensors, lay food with your finger, and download the picture.",
   "repository": "github:evoluteur/slime-mold",
   "homepage": "https://evoluteur.github.io/slime-mold/",
   "copyright": "(c) 2026 Olivier Giulieri",

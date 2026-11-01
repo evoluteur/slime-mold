@@ -109,6 +109,7 @@ const seedAgents = () => {
 
 const restart = () => {
   seedAgents();
+  render(); // show the fresh start even while paused
   saveHash();
 };
 
@@ -118,7 +119,7 @@ const step = () => {
   const sa = (state.sa * Math.PI) / 180, ra = (state.ra * Math.PI) / 180;
   const sd = state.sd, ss = state.ss, wander = state.wander;
   const sense = (x, y, a) => {
-    let sx = (x + Math.cos(a) * sd) | 0, sy = (y + Math.sin(a) * sd) | 0;
+    let sx = Math.floor(x + Math.cos(a) * sd), sy = Math.floor(y + Math.sin(a) * sd);
     sx = ((sx % S) + S) % S;
     sy = ((sy % S) + S) % S;
     return trail[sy * S + sx];
@@ -188,7 +189,8 @@ const layFood = () => {
     for (let x = -r; x <= r; x++) {
       if (x * x + y * y > r * r) continue;
       const X = (cx + x + SIM) % SIM, Y = (cy + y + SIM) % SIM;
-      trail[Y * SIM + X] += amount;
+      const k = Y * SIM + X;
+      trail[k] = Math.min(trail[k] + amount, CAP * 2); // capped, so the rest of the picture keeps its brightness
     }
 };
 
@@ -226,8 +228,8 @@ const readHash = () => {
   else if (q.get("p") === "custom") {
     state.preset = "custom";
     SLIDERS.forEach((k) => {
-      const v = parseFloat(q.get(k));
-      if (!isNaN(v)) state[k] = v;
+      const v = parseFloat(q.get(k)), el = $(k);
+      if (!isNaN(v)) state[k] = Math.min(+el.max, Math.max(+el.min, v)); // keep shared links within the sliders' range
     });
   }
   if (PALETTES[q.get("c")]) state.palette = q.get("c");
